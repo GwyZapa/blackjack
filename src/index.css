@@ -2,3 +2,13 @@
 
 @import "tailwindcss";
 
+.App{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+
+
+    height: 105vh;
+    background-image: url("/src/assets/bg_card.png") ;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}

@@ -1,0 +1,45 @@
+.parent{
+display:grid;
+grid-template-columns:repeat(6,1fr);
+grid-template-rows:repeat(2,1fr);
+grid-column-gap:40px;
+/* grid-row-gap:40px; */
+width: 100%;
+height: 74vh;
+align-items: stretch;
+}
+
+.div1, .div2, .div3, .div7, .div8 { 
+    max-height: 280px;
+    max-width: 200px;
+    border: 10px dashed #40FE95;
+    margin: 40px;
+}
+
+.div4, .div5, .div6, .div10, .div11 { 
+    max-height: 250px;
+    max-width: 200px;
+
+
+    border: 10px dashed #FF0003;
+    margin: 40px;
+}
+
+.div9 { 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 40px;
+}
+
+.div1{grid-area:1/1/2/2;}
+.div2{grid-area:1/2/2/3;}
+.div3{grid-area:1/3/2/4;}
+.div4{grid-area:1/4/2/5;}
+.div5{grid-area:1/5/2/6;}
+.div6{grid-area:1/6/2/7;}
+.div7{grid-area:2/1/3/2;}
+.div8{grid-area:2/2/3/3;}
+.div9{grid-area:2/3/3/5;}
+.div10{grid-area:2/5/3/6;}
+.div11{grid-area:2/6/3/7;}

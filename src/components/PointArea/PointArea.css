@@ -1,0 +1,31 @@
+.pointarea-container{
+    width: 100%;
+    padding: 50px 50px 0px 50px;
+    margin-bottom: 100px;
+    max-height: 80px;
+
+    display: flex;
+    color: white;
+    justify-content: space-between;
+    font-size: 32px;
+}
+
+.ct-1, .ct-2{
+    display: flex;
+}
+.dealer-points{
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+}
+
+
+.status-points-1{
+    margin-left: 10px;
+    color: #40FE95;
+}
+.status-points-2{
+    margin-right: 10px;
+    color: #FF5A5C;
+    
+}
