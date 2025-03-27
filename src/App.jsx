@@ -7,12 +7,12 @@ import PointArea from './components/PointArea'
 
 function App() {
   return (
-      <div className='App'>
-        <Header></Header>
-        <PointArea></PointArea>
-        <Gameboard></Gameboard>
-      </div>
-    
+    <div className='App'>
+      <Header></Header>
+      <PointArea></PointArea>
+      <Gameboard></Gameboard>
+    </div>
+
   )
 }
 

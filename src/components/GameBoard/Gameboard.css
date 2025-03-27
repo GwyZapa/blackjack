@@ -10,14 +10,14 @@ align-items: stretch;
 }
 
 .div1, .div2, .div3, .div7, .div8 { 
-    max-height: 280px;
+    min-height: 270px;
     max-width: 200px;
     border: 10px dashed #40FE95;
     margin: 40px;
 }
 
 .div4, .div5, .div6, .div10, .div11 { 
-    max-height: 250px;
+    min-height: 270px;
     max-width: 200px;
 
 

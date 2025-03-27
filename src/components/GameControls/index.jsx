@@ -1,9 +1,11 @@
 import './GameControls.css'
+import React from 'react';
 
-function GameControls () {
+
+function GameControls ({drawCard}) {
     return (
         <div className='container-gamecontrol'>
-            <button className='add-card'>MAIS +</button>
+            <button className='add-card' onClick={drawCard}>MAIS +</button>
             <button className='stop-card'>PARAR X</button>
         </div>
     )
