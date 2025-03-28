@@ -1,31 +1,37 @@
 import useBlackJack from 'E:/PROJETOS_Prog/BlackJack_api/blackjack/src/hooks/useBlackJack'; // Ajuste o caminho se necessário
 import useGetCard from 'E:/PROJETOS_Prog/BlackJack_api/blackjack/src/hooks/useGetCard'; // Ajuste o caminho se necessário
-// import useGetCard from '../hooks/useGetCard';
 
 import GameControls from '../GameControls'
 import './Gameboard.css'
 
-function Gameboard() {
-    const deckId = useBlackJack(); // Chama o hook e recebe o deckId
-    const { cards, drawCard } = useGetCard(deckId); // Usa o hook para puxar cartas
+function Gameboard({ cards, drawCard }) {
+
 
     return (
 
         <div className="parent">
-            {[1, 2, 3, 7, 8].map((num, index) => (
-                <div key={num} className={`div${num}`}>
-                    {cards[index] && <img src={cards[index].image} alt={cards[index].code} />}
-                </div>
-            ))}
             {/* div de controles */}
             <div className="div9"><GameControls drawCard={drawCard} ></GameControls></div>
-
-            {/* Cartas do dealer */}
-            {[4, 5, 6, 10, 11].map((num, index) => (
-                <div key={num} className={`div${num}`}>
-                    {cards[index + 5] && <img src={cards[index + 5].image} alt={cards[index + 5].code} />}
-                </div>
-            ))}
+            {/* Renderizar apenas as cartas do jogador (divs 1, 2, 3, 7, 8) */}
+            {cards.slice(0, 5).map((card, index) => {
+                // Mapear as cartas para as divs específicas do jogador
+                const playerDivs = ["div1", "div2", "div3", "div7", "div8"];
+                return (
+                    <div key={index} className={playerDivs[index]}>
+                        <img src={card.image} alt={`Carta ${card.code}`} />
+                    </div>
+                );
+            })}
+            <div className="div1"><img src={cards.image}></img> </div>
+            <div className="div2"><img src={cards.image}></img> </div>
+            <div className="div3"><img src={cards.image}></img> </div>
+            <div className="div4"><img src={cards.image}></img> </div>
+            <div className="div5"><img src={cards.image}></img> </div>
+            <div className="div6"><img src={cards.image}></img> </div>
+            <div className="div7"><img src={cards.image}></img> </div>
+            <div className="div8"><img src={cards.image}></img> </div>
+            <div className="div10"><img src={cards.image}></img> </div>
+            <div className="div11"><img src={cards.image}></img> </div>
         </div>
     )
 }

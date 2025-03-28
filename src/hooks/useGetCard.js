@@ -5,7 +5,7 @@ function useGetCard(deckId) {
 
     const drawCard = () => {
         if (!deckId) return; // Garante que o deckId está disponível
-
+        
         fetch(`https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`)
             .then(resp => resp.json())
             .then(data => {
