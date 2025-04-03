@@ -19,7 +19,14 @@ function App() {
     // Refs para armazenar os valores mais recentes
     const totalPointsRef = useRef(0);
     const totalDealerRef = useRef(0);
-    const dealerStarted = useRef(false); // Evita que o Dealer receba duas cartas no início
+
+    const [isRestartVisible, setIsRestartVisible] = useState(false);
+
+
+    const visRestart = () => {
+        setIsRestartVisible(true);
+    };
+    
 
     // Função utilitária para calcular os pontos de um array de cartas
     const calculatePoints = (cards) => {
@@ -61,14 +68,15 @@ function App() {
         console.log(`🎴 Pontos do Jogador: ${newPlayerTotal}`);
         setTotalPoints(newPlayerTotal);
         totalPointsRef.current = newPlayerTotal; // Atualiza o ref
-
+        // debugger;
         if (newPlayerTotal > 21) {
             setGameStatus("DERROTA! VOCÊ ESTOUROU");
+            visRestart(); // Torna o botão visível sempre que o jogo termina
         } else if (!playerStopped) {
             if (calculatePoints(dealerCards) < 18) {
                 setTimeout(drawDealerCard, 1000);
             } else {
-                checkWinner();
+                // checkWinner();
             }
         } 
         if (newPlayerTotal === 21) {
@@ -122,6 +130,9 @@ function App() {
         } else {
             setGameStatus("EMPATE!");
         }
+
+        visRestart(); // Torna o botão visível sempre que o jogo termina
+
     };
 
     // 6. O jogador decide parar
@@ -153,7 +164,7 @@ function App() {
 
     return (
         <div className='App'>
-            <Header gameStatus={gameStatus} />
+            <Header gameStatus={gameStatus} isRestartVisible={isRestartVisible}/>
             <PointArea
                 dealerPoints={dealerPoints}
                 totalDealer={totalDealer}
