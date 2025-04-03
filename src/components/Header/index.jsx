@@ -1,15 +1,15 @@
-import './Header.css'
+import './Header.css';
 
-function Header (){
+function Header({ gameStatus }) {
     return (
         <div className='bar'>
             <div className='container'>
-            <div className='status-title'><h1>EM ANDAMENTO</h1></div>
-            <div className='restart-button'><h1>REINICIAR</h1></div>
-            <div className='logo'><img src='src\assets\BLACKjacklogo.png'></img></div>
+                <div className='status-title'><h1>{gameStatus}</h1></div>
+                <div className='restart-button'><h1>REINICIAR</h1></div>
+                <div className='logo'><img src='src/assets/BLACKjacklogo.png' alt="Logo" /></div>
             </div>
         </div>
-
-    )
+    );
 }
-export default Header
+
+export default Header;

@@ -1,27 +1,31 @@
-import useBlackJack from 'E:/PROJETOS_Prog/BlackJack_api/blackjack/src/hooks/useBlackJack'; // Ajuste o caminho se necessário
-import useGetCard from 'E:/PROJETOS_Prog/BlackJack_api/blackjack/src/hooks/useGetCard'; // Ajuste o caminho se necessário
-
 import GameControls from '../GameControls'
 import './Gameboard.css'
 
-function Gameboard({ cards, drawCard }) {
-
+function Gameboard({ cards, dealerCards, drawCard, stopCards }) {
+    const playerDivs = ["div1", "div2", "div3", "div7", "div8"];
+    const dealerDivs = ["div4", "div5", "div6", "div10", "div11"];
 
     return (
-
         <div className="parent">
-            {/* div de controles */}
-            <div className="div9"><GameControls drawCard={drawCard} ></GameControls></div>
-            {/* Renderizar apenas as cartas do jogador (divs 1, 2, 3, 7, 8) */}
-            {cards.slice(0, 5).map((card, index) => {
-                // Mapear as cartas para as divs específicas do jogador
-                const playerDivs = ["div1", "div2", "div3", "div7", "div8"];
-                return (
-                    <div key={index} className={playerDivs[index]}>
-                        <img src={card.image} alt={`Carta ${card.code}`} />
-                    </div>
-                );
-            })}
+            {/* Controles do jogo */}
+            <div className="div9">
+                <GameControls drawCard={drawCard} stopCards={stopCards} />
+            </div>
+
+            {/* Cartas do jogador */}
+            {cards.slice(0, 5).map((card, index) => (
+                <div key={index} className={playerDivs[index]}>
+                    <img src={card.image} alt={`Carta ${card.code}`} />
+                </div>
+            ))}
+
+            {/* Cartas do Dealer */}
+            {dealerCards.slice(0, 5).map((card, index) => (
+                <div key={index} className={dealerDivs[index]}>
+                    <img src={card.image} alt={`Carta ${card.code}`} />
+                </div>
+            ))}
+
             <div className="div1"><img src={cards.image}></img> </div>
             <div className="div2"><img src={cards.image}></img> </div>
             <div className="div3"><img src={cards.image}></img> </div>
@@ -33,7 +37,11 @@ function Gameboard({ cards, drawCard }) {
             <div className="div10"><img src={cards.image}></img> </div>
             <div className="div11"><img src={cards.image}></img> </div>
         </div>
-    )
+
+
+    );
+
+
 }
 
 export default Gameboard
