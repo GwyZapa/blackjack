@@ -12,9 +12,9 @@ function App() {
     const [totalpoints, setTotalPoints] = useState(0);
     const [gameStatus, setGameStatus] = useState("EM ANDAMENTO");
     const [dealerCards, setDealerCards] = useState([]);
-    const [dealerPoints, setDealerPoints] = useState(0);
     const [totalDealer, setTotalDealer] = useState(0);
     const [playerStopped, setPlayerStopped] = useState(false);
+    const [statusColor, setStatusColor] = useState("neutral");
 
     // Refs para armazenar os valores mais recentes
     const totalPointsRef = useRef(0);
@@ -70,7 +70,7 @@ function App() {
 
     useEffect(() => {
         const newPlayerTotal = calculatePoints(cards);
-        
+
         if (newPlayerTotal !== lastTotalRef.current && newPlayerTotal !== 0) {
             arrayCardsRef.current.push(newPlayerTotal);
             lastTotalRef.current = newPlayerTotal;
@@ -83,19 +83,20 @@ function App() {
         verificaTurnoD();
         if (newPlayerTotal > 21) {
             setGameStatus("DERROTA! VOCÊ ESTOUROU");
+            setStatusColor("defeat");
             visRestart(); // Torna o botão visível sempre que o jogo termina
         } else if (!playerStopped) {
-            if (calculatePoints(dealerCards) <17) {
+            if (calculatePoints(dealerCards) < 17 && calculatePoints(dealerCards) !== 21) {
                 setTimeout(drawDealerCard, 1000);
 
             }
-             else {
+            else {
                 setGameStatus("DEALER PAROU.")
             }
         }
         if (newPlayerTotal === 21) {
 
-            checkWinner()
+            stopCards()
 
         }
     }, [cards]);
@@ -104,16 +105,15 @@ function App() {
     useEffect(() => {
         const dTotal = calculatePoints(dealerCards);
         console.log(`🏦 Pontos do Dealer: ${dTotal}`);
-        setDealerPoints(dTotal);
         setTotalDealer(dTotal);
         totalDealerRef.current = dTotal; // Atualiza o ref
         if (dTotal > 21) {
             console.log("STOP!");
 
             checkWinner()
-        } else if (dTotal < 21 && dTotal !== totalpoints) {
+        } else if (dTotal < 21 && dTotal !== totalpoints && totalpoints !== 21) {
             verificaTurnoJ();
-        } else if (dTotal === 21) {
+        } else if (dTotal === 21 && dTotal >= 17) {
             setGameStatus("DEALER PAROU.")
 
         }
@@ -121,18 +121,18 @@ function App() {
     }, [dealerCards]);
 
     // 4. Função para puxar carta para o Dealer
-    const drawDealerCard = () => {
-        if (!deckId) return;
-        fetch(`https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`)
-            .then(resp => resp.json())
-            .then(data => {
-                if (data.success && data.cards.length > 0) {
-                    console.log(`🃏 Dealer comprou: ${data.cards[0].code}`);
-                    setDealerCards(prevCards => [...prevCards, data.cards[0]]);
-                }
-            })
-            .catch(err => console.error("Erro ao pegar carta do dealer:", err));
+    const drawDealerCard = async () => {
+        const resp = await fetch(`https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`);
+        const data = await resp.json();
+        if (data.success && data.cards.length > 0) {
+            const newCard = data.cards[0];
+            setDealerCards(prev => [...prev, newCard]);
+            return newCard;
+        }
+        return null;
     };
+
+
 
     // 5. Verifica o vencedor
     const checkWinner = () => {
@@ -140,14 +140,19 @@ function App() {
 
         if (totalDealerRef.current > 21) {
             setGameStatus("VITÓRIA! O DEALER ESTOUROU");
+            setStatusColor("victory");
         } else if (totalPointsRef.current > 21) {
             setGameStatus("DERROTA! VOCÊ ESTOUROU");
+            setStatusColor("defeat");
         } else if (totalDealerRef.current > totalPointsRef.current) {
             setGameStatus("DERROTA! O DEALER GANHOU");
+            setStatusColor("defeat");
         } else if (totalDealerRef.current < totalPointsRef.current) {
             setGameStatus("VITÓRIA! VOCÊ GANHOU");
+            setStatusColor("victory");
         } else {
             setGameStatus("EMPATE!");
+            setStatusColor("draw");
         }
 
         visRestart(); // Torna o botão visível sempre que o jogo termina
@@ -166,38 +171,55 @@ function App() {
     };
 
     // 7. Turno do Dealer
-    const dealerTurn = () => {
+    const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+    const dealerTurn = async () => {
         console.log("♠️ Turno do Dealer...");
-        let dealerTotal = totalDealerRef.current;
 
-        const dealerPlay = () => {
+        let localDealerCards = [...dealerCards];
+        let dealerTotal = calculatePoints(localDealerCards);
 
-            if (dealerTotal < totalpoints) {
-                setTimeout(() => {
-                    drawDealerCard();
-                    dealerTotal = calculatePoints([...dealerCards, { value: "random" }]); // Simula uma carta
-                    dealerPlay();
-                }, 1000);
-            } else {
-                checkWinner();
+        while (
+            dealerTotal <= totalpoints &&
+            dealerTotal < 17 &&
+            dealerTotal <= 21
+        ) {
+            console.log("⏳ Dealer pensando...");
+
+            const newCard = await drawDealerCard(); // ainda adiciona no estado oficial
+            if (newCard) {
+                localDealerCards.push(newCard); // atualiza a cópia local manualmente
+                dealerTotal = calculatePoints(localDealerCards);
+                console.log("🃏 Dealer total atualizado:", dealerTotal);
             }
-        };
 
-        dealerPlay();
+            await sleep(1000);
+        }
+        
+
+        if (dealerTotal >= 17 || dealerTotal > totalpoints) {
+            checkWinner();
+
+        }
     };
+
 
     const verificaTurnoJ = () => {
         setGameStatus("VEZ DO JOGADOR")
+        setStatusColor("player");
+
     }
     const verificaTurnoD = () => {
         setGameStatus("VEZ DO DEALER")
+        setStatusColor("dealer");
     }
 
     return (
         <div className='App'>
-            <Header gameStatus={gameStatus} isRestartVisible={isRestartVisible} />
+            <Header gameStatus={gameStatus} isRestartVisible={isRestartVisible} statusColor={statusColor}
+            />
             <PointArea
-                dealerPoints={dealerPoints}
+                dealerCurrentPoints={dealerCards.map(card => card.code)}
                 totalDealer={totalDealer}
                 totalpoints={totalpoints}
                 currentpoints={cards.map(card => card.code)}
@@ -207,6 +229,7 @@ function App() {
                 drawCard={drawCard}
                 stopCards={stopCards}
                 dealerCards={dealerCards}
+                playerStopped={playerStopped}
             />
         </div>
     );

@@ -1,10 +1,10 @@
 import './Header.css';
 
-function Header({ gameStatus, isRestartVisible }) {
+function Header({ gameStatus, isRestartVisible, statusColor }) {
     return (
         <div className='bar'>
             <div className='container'>
-                <div className='status-title'><h1>{gameStatus}</h1></div>
+                <div className='status-title'><h1 className={statusColor}>{gameStatus}</h1></div>
                 <button
                     className="restart-button"
                     style={{ visibility: isRestartVisible ? "visible" : "hidden" }}

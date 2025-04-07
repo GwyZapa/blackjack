@@ -1,6 +1,6 @@
 import './PointArea.css';
 
-function PointArea({ totalpoints, currentpoints, totalDealer, currentDealer }) {
+function PointArea({ totalpoints, currentpoints, totalDealer, dealerCurrentPoints }) {
     return (
         <div className='pointarea-container'>
             <div className='player-points'>
@@ -15,7 +15,7 @@ function PointArea({ totalpoints, currentpoints, totalDealer, currentDealer }) {
                     <div className='status-points-2'>{totalDealer}</div>
                     <div>:TOTAL DE PONTOS</div>
                 </div>
-                <div>{currentDealer}</div>
+                <div>{dealerCurrentPoints.join(", ")}</div>
             </div>
         </div>
     );

@@ -1,7 +1,7 @@
 import GameControls from '../GameControls'
 import './Gameboard.css'
 
-function Gameboard({ cards, dealerCards, drawCard, stopCards }) {
+function Gameboard({ cards, dealerCards, drawCard, stopCards, playerStopped }) {
     const playerDivs = ["div1", "div2", "div3", "div7", "div8"];
     const dealerDivs = ["div4", "div5", "div6", "div10", "div11"];
 
@@ -9,7 +9,7 @@ function Gameboard({ cards, dealerCards, drawCard, stopCards }) {
         <div className="parent">
             {/* Controles do jogo */}
             <div className="div9">
-                <GameControls drawCard={drawCard} stopCards={stopCards} />
+                <GameControls drawCard={drawCard} stopCards={stopCards}  isAddAvailable={playerStopped}/>
             </div>
 
             {/* Cartas do jogador */}

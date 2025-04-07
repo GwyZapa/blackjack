@@ -1,4 +1,4 @@
-.bar{
+.bar {
     width: 100%;
     height: 60px;
     /* display: flex;
@@ -7,7 +7,7 @@
     padding-bottom: 10px;
 }
 
-.container{
+.container {
     /* margin-top: 30px !important; */
     /* margin-top: 10px; */
     /* margin-left: 40%; */
@@ -27,18 +27,21 @@
     /* flex-grow: 1; Faz o título ocupar o espaço disponível */
     position: absolute;
     left: 20px;
-    text-align: center; /* Centraliza o texto dentro da div */
-    text-decoration: underline ;
+    text-align: center;
+    /* Centraliza o texto dentro da div */
 }
 
 .restart-button {
-    width: 100px; /* Tamanho do botão, ajuste conforme necessário */
+    width: 100px;
+    /* Tamanho do botão, ajuste conforme necessário */
     height: 40px;
-    background-color: grey; /* Estilo temporário do botão */
+    background-color: grey;
+    /* Estilo temporário do botão */
     color: white;
     font-size: 18px;
-    border-radius: 5%; /* Torna o botão redondo */
-  
+    border-radius: 5%;
+    /* Torna o botão redondo */
+
     /* margin-right: 280px; */
     font-weight: 700;
     visibility: hidden;
@@ -49,10 +52,48 @@
 
 }
 
+.restart-button:hover {
+    box-shadow: -5px 5px 1px white;
+    transition: 0.2s;
+}
+
 .logo {
     /* margin-top: 20px; */
     /* margin: 10px; */
     position: absolute;
-    right: 20px; /* Mantém a logo no canto direito */
+    right: 20px;
+    /* Mantém a logo no canto direito */
     width: 80px;
+}
+
+
+.victory {
+    color: #00ff6a;
+    text-decoration: underline #00ff6a;
+}
+
+.defeat {
+    color: #FF0003;
+    text-decoration: underline #FF0003;
+}
+
+.player {
+    color: #40FE95;
+    text-decoration: underline rgb(255, 255, 255);
+}
+
+.dealer {
+    text-decoration: underline rgb(255, 255, 255);
+    color: #FF5A5C;
+}
+
+.draw {
+    text-decoration: underline #f39c12;
+    color: #f39c12;
+}
+
+.neutral {
+    text-decoration: underline rgb(182, 182, 182);
+    color: rgb(182, 182, 182);
+
 }
