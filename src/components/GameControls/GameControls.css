@@ -18,7 +18,20 @@
 .stop-card{
     width: 200px;
     height: 50px;
-    background-color: white !important;
+    background-color: white;
     color: black;
     font-size: 32px;
+}
+
+.add-card:hover{
+    background-color: white;
+    color: black;
+    box-shadow: -8px 8px 1px  #40FE95;
+    transition: 0.2s;
+}
+.stop-card:hover{
+    background-color: black;
+    color: white;
+    box-shadow: -8px 8px 1px  #FF0003;
+    transition: 0.2s;
 }
