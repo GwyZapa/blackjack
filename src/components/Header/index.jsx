@@ -1,17 +1,31 @@
 import './Header.css';
 
-function Header({ gameStatus, isRestartVisible, statusColor }) {
+function Header({ gameStatus, isRestartVisible, statusColor,restartGame, currentRounds }) {
+
+  
+
     return (
         <div className='bar'>
             <div className='container'>
                 <div className='status-title'><h1 className={statusColor}>{gameStatus}</h1></div>
-                <button
-                    className="restart-button"
-                    style={{ visibility: isRestartVisible ? "visible" : "hidden" }}
-                    onClick={() => window.location.reload()} // Reinicia o jogo (opcional)
+
+                <div className='center-container'>
+                    <button
+                        className="restart-button"
+                        style={{ visibility: isRestartVisible ? "visible" : "hidden" }}
+                        onClick={() => window.location.reload()} // Reinicia o jogo (opcional)
                     >
-                    REINICIAR
-                </button>                
+                        NOVA RODADA
+                    </button>
+                    <p className='rounds'>Rodada {currentRounds}</p>
+                    <button
+                        className="restartgame-button"
+                        onClick={restartGame}
+                        style={{ visibility: isRestartVisible ? "visible" : "hidden" }}
+                    >
+                        REINICIAR JOGO
+                    </button>
+                </div>
                 <div className='logo'><img src='src/assets/BLACKjacklogo.png' alt="Logo" /></div>
             </div>
         </div>

@@ -31,8 +31,18 @@
     /* Centraliza o texto dentro da div */
 }
 
+.center-container{
+    position: absolute;
+    left: 37%;
+    /* right: 42%; */
+    display: flex;
+    width: 550px;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .restart-button {
-    width: 100px;
+    width: 140px;
     /* Tamanho do botão, ajuste conforme necessário */
     height: 40px;
     background-color: grey;
@@ -45,13 +55,38 @@
     /* margin-right: 280px; */
     font-weight: 700;
     visibility: hidden;
-    position: absolute;
-    left: 47.5%;
-    right: 47.5%;
+    
+    /* margin-left: auto; Empurra o botão para a direita */
+
+}
+.rounds{
+    font-size: 36px;
+    color: white;
+    /* width: 60px; */
+}
+.restartgame-button {
+    width: 160px;
+    /* Tamanho do botão, ajuste conforme necessário */
+    height: 40px;
+    background-color: white;
+    /* Estilo temporário do botão */
+    color: rgb(82, 82, 82);
+    font-size: 18px;
+    border-radius: 5%;
+    /* Torna o botão redondo */
+
+    /* margin-right: 280px; */
+    font-weight: 700;
+    visibility: hidden;
+
     /* margin-left: auto; Empurra o botão para a direita */
 
 }
 
+.restartgame-button:hover {
+    box-shadow: -5px 5px 1px rgb(82, 82, 82);
+    transition: 0.2s;
+}
 .restart-button:hover {
     box-shadow: -5px 5px 1px white;
     transition: 0.2s;

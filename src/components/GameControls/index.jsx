@@ -13,6 +13,9 @@ function GameControls({ drawCard, stopCards, isAddAvailable }) {
         setIsButtonDisabled(false);
     };
 
+
+
+    
     return (
         <div className='container-gamecontrol'>
             <button

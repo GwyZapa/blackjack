@@ -15,6 +15,9 @@ function App() {
     const [totalDealer, setTotalDealer] = useState(0);
     const [playerStopped, setPlayerStopped] = useState(false);
     const [statusColor, setStatusColor] = useState("neutral");
+    const [rounds, setRounds] = useState(0)
+
+    const currentRoundsRef = useRef(0)
 
     // Refs para armazenar os valores mais recentes
     const totalPointsRef = useRef(0);
@@ -26,6 +29,14 @@ function App() {
     const visRestart = () => {
         setIsRestartVisible(true);
     };
+
+    const restartGame = () => {
+        localStorage.removeItem("blackjack_rounds");
+        setRounds(0);
+        currentRoundsRef.current = 0;
+
+        window.location.reload()
+    }
 
 
     // Função utilitária para calcular os pontos de um array de cartas
@@ -50,6 +61,15 @@ function App() {
         return total;
     };
 
+    useEffect(() => {
+        const savedRounds = localStorage.getItem("blackjack_rounds");
+        if (savedRounds) {
+            setRounds(Number(savedRounds));
+            currentRoundsRef.current = Number(savedRounds);
+        }
+    }, []);
+
+
     // 1. Dealer recebe a primeira carta apenas uma vez
     const hasRun = useRef(false); // Controle de execução única
 
@@ -66,7 +86,6 @@ function App() {
     // 2. Atualiza pontos do jogador e verifica vencedor
     const arrayCardsRef = useRef([]);
     const lastTotalRef = useRef(null);
-    console.log("DEBUG arrayCardsRef inicial:", arrayCardsRef.current);
 
     useEffect(() => {
         const newPlayerTotal = calculatePoints(cards);
@@ -138,6 +157,7 @@ function App() {
     const checkWinner = () => {
         console.log(`⚖️ Verificando vencedor... Jogador: ${totalPointsRef.current} | Dealer: ${totalDealerRef.current}`);
 
+
         if (totalDealerRef.current > 21) {
             setGameStatus("VITÓRIA! O DEALER ESTOUROU");
             setStatusColor("victory");
@@ -154,7 +174,14 @@ function App() {
             setGameStatus("EMPATE!");
             setStatusColor("draw");
         }
+        let currentRounds = currentRoundsRef.current;
+        currentRounds++;
 
+        setRounds(currentRounds);
+        currentRoundsRef.current = currentRounds;
+        localStorage.setItem("blackjack_rounds", currentRounds);
+        console.log("📦 LocalStorage:", localStorage.getItem("blackjack_rounds"));
+        
         visRestart(); // Torna o botão visível sempre que o jogo termina
 
     };
@@ -195,7 +222,7 @@ function App() {
 
             await sleep(1000);
         }
-        
+
 
         if (dealerTotal >= 17 || dealerTotal > totalpoints) {
             checkWinner();
@@ -216,7 +243,8 @@ function App() {
 
     return (
         <div className='App'>
-            <Header gameStatus={gameStatus} isRestartVisible={isRestartVisible} statusColor={statusColor}
+            <Header gameStatus={gameStatus} isRestartVisible={isRestartVisible} statusColor={statusColor} restartGame={restartGame}  currentRounds={rounds}
+ 
             />
             <PointArea
                 dealerCurrentPoints={dealerCards.map(card => card.code)}
