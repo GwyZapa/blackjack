@@ -33,10 +33,10 @@
 
 .center-container{
     position: absolute;
-    left: 37%;
+    left: 36.5%;
     /* right: 42%; */
     display: flex;
-    width: 550px;
+    width: 650px;
     justify-content: space-between;
     align-items: center;
 }

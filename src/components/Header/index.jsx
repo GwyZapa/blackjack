@@ -1,8 +1,7 @@
 import './Header.css';
 
-function Header({ gameStatus, isRestartVisible, statusColor,restartGame, currentRounds }) {
+function Header({ gameStatus, isRestartVisible, statusColor,restartGame, currentRounds, showModal }) {
 
-  
 
     return (
         <div className='bar'>
@@ -24,6 +23,13 @@ function Header({ gameStatus, isRestartVisible, statusColor,restartGame, current
                         style={{ visibility: isRestartVisible ? "visible" : "hidden" }}
                     >
                         REINICIAR JOGO
+                    </button>
+                    <button
+                        className="showmodal-button"
+                        onClick={showModal}
+                        style={{ visibility: isRestartVisible ? "visible" : "hidden" }}
+                    >
+                        Ranking
                     </button>
                 </div>
                 <div className='logo'><img src='src/assets/BLACKjacklogo.png' alt="Logo" /></div>

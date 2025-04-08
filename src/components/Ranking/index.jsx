@@ -1,14 +1,16 @@
 import './Ranking.css'
 
 
+function Ranking({ isShowRanking }) {
 
-function Ranking (){
 
+    return (
 
-    return(
-        <div className='modal-ranking'>
+        <div className='modal-ranking'
+            style={{ visibility: isShowRanking ? "visible" : "hidden" }}
+        >
             <div className='ranking'>
-                <label className=''></label>
+                <label className='top'></label>
             </div>
         </div>
     );

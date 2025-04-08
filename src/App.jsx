@@ -4,6 +4,7 @@ import Header from './components/Header';
 import PointArea from './components/PointArea';
 import useBlackJack from './hooks/useBlackJack';
 import useGetCard from './hooks/useGetCard';
+import Ranking from './components/Ranking'
 
 function App() {
     const deckId = useBlackJack();
@@ -24,13 +25,21 @@ function App() {
     const totalDealerRef = useRef(0);
 
     const [isRestartVisible, setIsRestartVisible] = useState(false);
+    const [isShowRanking, setIsShowRanking] = useState(false);
+
+
 
 
     const visRestart = () => {
         setIsRestartVisible(true);
+        setIsShowRanking(false);
+
     };
 
+    // Restarta o jogo completo
     const restartGame = () => {
+        setIsShowRanking(false);
+
         localStorage.removeItem("blackjack_rounds");
         setRounds(0);
         currentRoundsRef.current = 0;
@@ -38,6 +47,11 @@ function App() {
         window.location.reload()
     }
 
+
+    const showModal = () => {
+        setIsShowRanking(true);
+
+    }
 
     // Função utilitária para calcular os pontos de um array de cartas
     const calculatePoints = (cards) => {
@@ -61,11 +75,22 @@ function App() {
         return total;
     };
 
+    // Rounds
     useEffect(() => {
         const savedRounds = localStorage.getItem("blackjack_rounds");
         if (savedRounds) {
             setRounds(Number(savedRounds));
             currentRoundsRef.current = Number(savedRounds);
+        } else {
+            setRounds(1);
+            currentRoundsRef.current = 1;
+            localStorage.setItem("blackjack_rounds", 1);
+        }
+
+
+        if (currentRoundsRef.current == 11) {
+            setIsShowRanking(true)
+            restartGame()
         }
     }, []);
 
@@ -80,6 +105,7 @@ function App() {
             drawDealerCard();
             verificaTurnoJ();
         }
+        setIsShowRanking(false);
     }, [deckId]); // Dependência: deckId
 
 
@@ -177,11 +203,11 @@ function App() {
         let currentRounds = currentRoundsRef.current;
         currentRounds++;
 
-        setRounds(currentRounds);
+        setRounds(currentRounds - 1);
         currentRoundsRef.current = currentRounds;
         localStorage.setItem("blackjack_rounds", currentRounds);
         console.log("📦 LocalStorage:", localStorage.getItem("blackjack_rounds"));
-        
+
         visRestart(); // Torna o botão visível sempre que o jogo termina
 
     };
@@ -190,7 +216,7 @@ function App() {
     const stopCards = () => {
         console.log("🚦 Jogador decidiu parar!");
         setPlayerStopped(true);
-        console.log(totalDealer + "-" + totalpoints);
+        // console.log(totalDealer + "-" + totalpoints);
 
         dealerTurn();
 
@@ -243,9 +269,8 @@ function App() {
 
     return (
         <div className='App'>
-            <Header gameStatus={gameStatus} isRestartVisible={isRestartVisible} statusColor={statusColor} restartGame={restartGame}  currentRounds={rounds}
- 
-            />
+            <Ranking isShowRanking={isShowRanking}></Ranking>
+            <Header gameStatus={gameStatus} isRestartVisible={isRestartVisible} statusColor={statusColor} restartGame={restartGame} currentRounds={rounds} showModal={showModal} />
             <PointArea
                 dealerCurrentPoints={dealerCards.map(card => card.code)}
                 totalDealer={totalDealer}
