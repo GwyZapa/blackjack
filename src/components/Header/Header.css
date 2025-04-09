@@ -92,6 +92,33 @@
     transition: 0.2s;
 }
 
+.showmodal-button{
+    width: 80px;
+    height: 40px;
+    background-color: rgba(0, 128, 0, 0.959);
+    color: rgb(255, 255, 255);
+    font-size: 18px;
+    border-radius: 5%;
+    font-weight: 700;
+    cursor: pointer;
+}
+.showmodal-button:hover{
+    box-shadow: -5px 5px 1px white;
+    transition: 0.2s;
+}
+
+.current-score{
+    font-size: 30px;
+    color: rgb(110, 113, 255);
+}
+.center-flex{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 50px;
+}
+
 .logo {
     /* margin-top: 20px; */
     /* margin: 10px; */

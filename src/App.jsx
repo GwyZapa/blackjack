@@ -17,8 +17,11 @@ function App() {
     const [playerStopped, setPlayerStopped] = useState(false);
     const [statusColor, setStatusColor] = useState("neutral");
     const [rounds, setRounds] = useState(0)
+    const [score, setScore] = useState(0);
+
 
     const currentRoundsRef = useRef(0)
+    const currentScoreRef = useRef(0)
 
     // Refs para armazenar os valores mais recentes
     const totalPointsRef = useRef(0);
@@ -40,6 +43,7 @@ function App() {
     const restartGame = () => {
         setIsShowRanking(false);
 
+        localStorage.removeItem("score")
         localStorage.removeItem("blackjack_rounds");
         setRounds(0);
         currentRoundsRef.current = 0;
@@ -129,6 +133,7 @@ function App() {
         if (newPlayerTotal > 21) {
             setGameStatus("DERROTA! VOCÊ ESTOUROU");
             setStatusColor("defeat");
+            addScore("derrota")
             visRestart(); // Torna o botão visível sempre que o jogo termina
         } else if (!playerStopped) {
             if (calculatePoints(dealerCards) < 17 && calculatePoints(dealerCards) !== 21) {
@@ -178,27 +183,76 @@ function App() {
     };
 
 
+    // Scores e Ranking
+    useEffect(() => {
+        const currentScore = localStorage.getItem("score");
+
+        if (currentScore) {
+            setScore(Number(currentScore))
+            currentScoreRef.current = Number(currentScore)
+        } else {
+            
+            setScore(0);
+            currentScoreRef.current = 0;
+            console.log(currentScoreRef.current);
+            localStorage.setItem("score", 0);
+        }
+    })
+
+
+    function addScore(status) {
+        const randomV = Math.floor(Math.random() * (38 - 20 + 1)) + 20;
+        const randomD = Math.floor(Math.random() * (-20 - (-30) + 1)) + (-30);
+        const randomE = Math.floor(Math.random() * (3 - (-2) + 1)) + (-2);
+
+        if (status == "vitoria") {
+
+            const prevScore = Number(localStorage.getItem("score")) || 0;
+            const newScore = prevScore + randomV;
+            setScore(newScore)
+            localStorage.setItem("score", newScore);
+
+        } else if (status == "derrota") {
+
+            const prevScore = Number(localStorage.getItem("score")) || 0;
+            const newScore = prevScore + randomD;
+            setScore(newScore)
+            localStorage.setItem("score", newScore);
+
+        } else {
+
+            const prevScore = Number(localStorage.getItem("score")) || 0;
+            const newScore = prevScore + randomE;
+            setScore(newScore)
+            localStorage.setItem("score", newScore);
+
+        }
+    }
 
     // 5. Verifica o vencedor
     const checkWinner = () => {
         console.log(`⚖️ Verificando vencedor... Jogador: ${totalPointsRef.current} | Dealer: ${totalDealerRef.current}`);
 
-
         if (totalDealerRef.current > 21) {
             setGameStatus("VITÓRIA! O DEALER ESTOUROU");
             setStatusColor("victory");
+            addScore("vitoria")
         } else if (totalPointsRef.current > 21) {
             setGameStatus("DERROTA! VOCÊ ESTOUROU");
             setStatusColor("defeat");
+            addScore("derrota")
         } else if (totalDealerRef.current > totalPointsRef.current) {
             setGameStatus("DERROTA! O DEALER GANHOU");
             setStatusColor("defeat");
+            addScore("derrota")
         } else if (totalDealerRef.current < totalPointsRef.current) {
             setGameStatus("VITÓRIA! VOCÊ GANHOU");
             setStatusColor("victory");
+            addScore("vitoria")
         } else {
             setGameStatus("EMPATE!");
             setStatusColor("draw");
+            addScore("empate")
         }
         let currentRounds = currentRoundsRef.current;
         currentRounds++;
@@ -250,7 +304,7 @@ function App() {
         }
 
 
-        if (dealerTotal >= 17 || dealerTotal > totalpoints) {
+        if (dealerTotal >= 17 || dealerTotal > totalpoints && totalpoints !== 21) {
             checkWinner();
 
         }
@@ -266,11 +320,14 @@ function App() {
         setGameStatus("VEZ DO DEALER")
         setStatusColor("dealer");
     }
+    const closeRanking = () => {
+        setIsShowRanking(false);
+    };
 
     return (
         <div className='App'>
-            <Ranking isShowRanking={isShowRanking}></Ranking>
-            <Header gameStatus={gameStatus} isRestartVisible={isRestartVisible} statusColor={statusColor} restartGame={restartGame} currentRounds={rounds} showModal={showModal} />
+            <Ranking isShowRanking={isShowRanking} closeRanking={closeRanking} ></Ranking>
+            <Header gameStatus={gameStatus} isRestartVisible={isRestartVisible} statusColor={statusColor} restartGame={restartGame} currentRounds={rounds} showModal={showModal} currentScore={score}/>
             <PointArea
                 dealerCurrentPoints={dealerCards.map(card => card.code)}
                 totalDealer={totalDealer}

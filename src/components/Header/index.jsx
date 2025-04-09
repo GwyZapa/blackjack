@@ -1,6 +1,6 @@
 import './Header.css';
 
-function Header({ gameStatus, isRestartVisible, statusColor,restartGame, currentRounds, showModal }) {
+function Header({ gameStatus, isRestartVisible, statusColor,restartGame, currentRounds, showModal, currentScore }) {
 
 
     return (
@@ -16,7 +16,10 @@ function Header({ gameStatus, isRestartVisible, statusColor,restartGame, current
                     >
                         NOVA RODADA
                     </button>
+                    <div className='center-flex'>
                     <p className='rounds'>Rodada {currentRounds}</p>
+                    <p className='current-score'>pontos: {currentScore}</p>
+                    </div>
                     <button
                         className="restartgame-button"
                         onClick={restartGame}
@@ -27,7 +30,7 @@ function Header({ gameStatus, isRestartVisible, statusColor,restartGame, current
                     <button
                         className="showmodal-button"
                         onClick={showModal}
-                        style={{ visibility: isRestartVisible ? "visible" : "hidden" }}
+                        
                     >
                         Ranking
                     </button>

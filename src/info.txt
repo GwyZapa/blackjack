@@ -7,7 +7,7 @@ ao final das 10 rodadas (1 jogo) manda o total de score para Ranking.
 sempre que apertar o botão de REINICIAR JOGO reinicia as 10 rodadas 
 
 ajustar botao ranking
-colocar fechar ranking 
+colocar fechar ranking* 
 salvar score no local storage
 mostrar score no ranking
 
