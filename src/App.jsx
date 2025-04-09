@@ -134,6 +134,12 @@ function App() {
             setGameStatus("DERROTA! VOCÊ ESTOUROU");
             setStatusColor("defeat");
             addScore("derrota")
+            let currentRounds = currentRoundsRef.current;
+            currentRounds++;
+    
+            setRounds(currentRounds - 1);
+            currentRoundsRef.current = currentRounds;
+            localStorage.setItem("blackjack_rounds", currentRounds);
             visRestart(); // Torna o botão visível sempre que o jogo termina
         } else if (!playerStopped) {
             if (calculatePoints(dealerCards) < 17 && calculatePoints(dealerCards) !== 21) {
@@ -227,24 +233,29 @@ function App() {
             localStorage.setItem("score", newScore);
 
         }
+        
     }
 
     // 5. Verifica o vencedor
     const checkWinner = () => {
         console.log(`⚖️ Verificando vencedor... Jogador: ${totalPointsRef.current} | Dealer: ${totalDealerRef.current}`);
 
-        if (totalDealerRef.current > 21) {
+        if (totalDealerRef.current > 21 && gameStatus!=="VITÓRIA! VOCÊ GANHOU") {
             setGameStatus("VITÓRIA! O DEALER ESTOUROU");
             setStatusColor("victory");
             addScore("vitoria")
+            console.log(Number(localStorage.getItem("score")));
+            
         } else if (totalPointsRef.current > 21) {
             setGameStatus("DERROTA! VOCÊ ESTOUROU");
             setStatusColor("defeat");
             addScore("derrota")
+            console.log(Number(localStorage.getItem("score")));
         } else if (totalDealerRef.current > totalPointsRef.current) {
             setGameStatus("DERROTA! O DEALER GANHOU");
             setStatusColor("defeat");
             addScore("derrota")
+            console.log(Number(localStorage.getItem("score")));
         } else if (totalDealerRef.current < totalPointsRef.current) {
             setGameStatus("VITÓRIA! VOCÊ GANHOU");
             setStatusColor("victory");

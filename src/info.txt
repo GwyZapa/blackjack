@@ -6,8 +6,15 @@ ao final das 10 rodadas (1 jogo) manda o total de score para Ranking.
 
 sempre que apertar o botão de REINICIAR JOGO reinicia as 10 rodadas 
 
-ajustar botao ranking
+ajustar botao ranking*
 colocar fechar ranking* 
-salvar score no local storage
+salvar score no local storage*
+
 mostrar score no ranking
 
+BUGs
+ROUNDS PULANDO QUANDO O JOGADOR ESTOURA? 
+
+PONTOS CONTANDO DUAS VEZES QUANDO O JOGADOR GANHA COM 21 E O DEALER ESTOURA LOGO APÓS
+
+AS VEZES OS PONTOS DE VITORIA NÃO CONTAM?
