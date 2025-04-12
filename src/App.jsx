@@ -31,7 +31,8 @@ function App() {
     const [isShowRanking, setIsShowRanking] = useState(false);
 
 
-
+    // let lastRanking = 0
+    const [ranking, setRanking] = useState([])
 
     const visRestart = () => {
         setIsRestartVisible(true);
@@ -79,6 +80,20 @@ function App() {
         return total;
     };
 
+    // Pegar ranking no reload
+    useEffect(() => {
+        try {
+            const localStorageLastRanking = JSON.parse(localStorage.getItem("ranking") || "[]");
+            if (Array.isArray(localStorageLastRanking)) {
+                setRanking(localStorageLastRanking);
+            } else {
+                setRanking([]);
+            }
+        } catch (e) {
+            setRanking([]);
+        }
+    }, []);
+    
     // Rounds
     useEffect(() => {
         const savedRounds = localStorage.getItem("blackjack_rounds");
@@ -93,8 +108,34 @@ function App() {
 
 
         if (currentRoundsRef.current == 11) {
+            // lastRanking = currentScoreRef.current
             setIsShowRanking(true)
-            restartGame()
+
+
+            // Recupera do localStorage e faz parse — garante que seja um array
+            let localStorageLastRanking = [];
+
+            try {
+                const raw = localStorage.getItem("ranking");
+                if (raw) {
+                    localStorageLastRanking = JSON.parse(raw);
+                    if (!Array.isArray(localStorageLastRanking)) {
+                        localStorageLastRanking = [];
+                    }
+                }
+            } catch (e) {
+                localStorageLastRanking = [];
+            }
+
+            const updatedRanking = [...localStorageLastRanking, currentScoreRef.current];
+
+            localStorage.setItem("ranking", JSON.stringify(updatedRanking));
+
+            setRanking(updatedRanking);
+
+            setTimeout(() => {
+                restartGame()
+            }, 2000);
         }
     }, []);
 
@@ -136,7 +177,7 @@ function App() {
             addScore("derrota")
             let currentRounds = currentRoundsRef.current;
             currentRounds++;
-    
+
             setRounds(currentRounds - 1);
             currentRoundsRef.current = currentRounds;
             localStorage.setItem("blackjack_rounds", currentRounds);
@@ -197,10 +238,10 @@ function App() {
             setScore(Number(currentScore))
             currentScoreRef.current = Number(currentScore)
         } else {
-            
+
             setScore(0);
             currentScoreRef.current = 0;
-            console.log(currentScoreRef.current);
+            // console.log(currentScoreRef.current);
             localStorage.setItem("score", 0);
         }
     })
@@ -233,19 +274,21 @@ function App() {
             localStorage.setItem("score", newScore);
 
         }
-        
+
     }
 
     // 5. Verifica o vencedor
     const checkWinner = () => {
         console.log(`⚖️ Verificando vencedor... Jogador: ${totalPointsRef.current} | Dealer: ${totalDealerRef.current}`);
 
-        if (totalDealerRef.current > 21 && gameStatus!=="VITÓRIA! VOCÊ GANHOU") {
+
+
+        if (totalDealerRef.current > 21 && gameStatus !== "VITÓRIA! VOCÊ GANHOU") {
             setGameStatus("VITÓRIA! O DEALER ESTOUROU");
             setStatusColor("victory");
             addScore("vitoria")
             console.log(Number(localStorage.getItem("score")));
-            
+
         } else if (totalPointsRef.current > 21) {
             setGameStatus("DERROTA! VOCÊ ESTOUROU");
             setStatusColor("defeat");
@@ -255,7 +298,7 @@ function App() {
             setGameStatus("DERROTA! O DEALER GANHOU");
             setStatusColor("defeat");
             addScore("derrota")
-            console.log(Number(localStorage.getItem("score")));
+            // console.log(Number(localStorage.getItem("score")));
         } else if (totalDealerRef.current < totalPointsRef.current) {
             setGameStatus("VITÓRIA! VOCÊ GANHOU");
             setStatusColor("victory");
@@ -274,6 +317,15 @@ function App() {
         console.log("📦 LocalStorage:", localStorage.getItem("blackjack_rounds"));
 
         visRestart(); // Torna o botão visível sempre que o jogo termina
+
+        console.log("ENTROU???");
+        if (currentRoundsRef.current == 11) {
+            console.log("ENTROU!");
+            
+            setGameStatus("Fim de jogo!")
+            showModal()
+        }
+
 
     };
 
@@ -337,8 +389,8 @@ function App() {
 
     return (
         <div className='App'>
-            <Ranking isShowRanking={isShowRanking} closeRanking={closeRanking} ></Ranking>
-            <Header gameStatus={gameStatus} isRestartVisible={isRestartVisible} statusColor={statusColor} restartGame={restartGame} currentRounds={rounds} showModal={showModal} currentScore={score}/>
+            <Ranking isShowRanking={isShowRanking} closeRanking={closeRanking} ranking={ranking} ></Ranking>
+            <Header gameStatus={gameStatus} isRestartVisible={isRestartVisible} statusColor={statusColor} restartGame={restartGame} currentRounds={rounds} showModal={showModal} currentScore={score} />
             <PointArea
                 dealerCurrentPoints={dealerCards.map(card => card.code)}
                 totalDealer={totalDealer}

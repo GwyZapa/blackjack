@@ -9,8 +9,8 @@ sempre que apertar o botão de REINICIAR JOGO reinicia as 10 rodadas
 ajustar botao ranking*
 colocar fechar ranking* 
 salvar score no local storage*
+mostrar score no ranking*
 
-mostrar score no ranking
 
 BUGs
 ROUNDS PULANDO QUANDO O JOGADOR ESTOURA? 
@@ -18,3 +18,4 @@ ROUNDS PULANDO QUANDO O JOGADOR ESTOURA?
 PONTOS CONTANDO DUAS VEZES QUANDO O JOGADOR GANHA COM 21 E O DEALER ESTOURA LOGO APÓS
 
 AS VEZES OS PONTOS DE VITORIA NÃO CONTAM?
+
