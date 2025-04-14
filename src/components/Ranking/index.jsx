@@ -4,23 +4,28 @@ function Ranking({ isShowRanking, closeRanking, ranking }) {
     // Processa o ranking: ordena, remove zeros extras e limita a 8 valores
     const sortedRanking = Array.isArray(ranking)
         ? [...ranking]
-            .map(Number) // Garante que todos são números
-            .sort((a, b) => b - a) // Ordem decrescente
+            .map(Number)
+            .sort((a, b) => b - a)
             .filter((value, index, self) => {
-                // Mantém apenas UM único zero (se houver)
                 return value !== 0 || self.indexOf(0) === index;
             })
-            .slice(0, 8) // Limita para os 8 primeiros
+            .slice(0, 8)
         : [];
 
     return (
         <div className={`modal-ranking ${isShowRanking ? "show" : ""}`}>
-            <button className='close-ranking' onClick={closeRanking}>
-                <img src='src/assets/delete-sign.png' alt="Fechar" />
-            </button>
+            <div className='header-ranking'>
+                <h2 className='title-ranking'>Ranking de pontos!</h2>
+                <button className='close-ranking' onClick={closeRanking}>
+                    <img src='src/assets/delete-sign.png' alt="Fechar" />
+                </button>
+            </div>
             <div className='ranking'>
                 {sortedRanking.map((rank, index) => (
-                    <label key={index}>{rank}</label>
+                    <div key={index} className="ranking-item">
+                        <label className="ranking-position">{index + 1}#</label>
+                        <label className="ranking-score">{rank}</label>
+                    </div>
                 ))}
             </div>
         </div>

@@ -86,10 +86,13 @@
 .restartgame-button:hover {
     box-shadow: -5px 5px 1px rgb(82, 82, 82);
     transition: 0.2s;
+    cursor:pointer
+
 }
 .restart-button:hover {
     box-shadow: -5px 5px 1px white;
     transition: 0.2s;
+    cursor:pointer
 }
 
 .showmodal-button{
@@ -109,7 +112,7 @@
 
 .current-score{
     font-size: 30px;
-    color: rgb(110, 113, 255);
+    color: #00ff6a;
 }
 .center-flex{
     display: flex;

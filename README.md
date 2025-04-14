@@ -1,12 +1,56 @@
-# React + Vite
+# 🃏 Blackjack em React
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Um projeto completo de **Blackjack (21)** desenvolvido com **React.js**, integrando chamadas à API externa [Deck of Cards API](https://deckofcardsapi.com/), lógica de jogo para o jogador e dealer, ranking com `localStorage` e uma interface moderna e responsiva.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🎮 Sobre o Jogo
 
-## Expanding the ESLint configuration
+Neste jogo, o jogador compete contra o **dealer**. O objetivo é chegar o mais próximo possível de 21 sem ultrapassar, enquanto o dealer segue regras automáticas (para ao atingir 17 ou mais pontos). O jogo é jogado por **10 rodadas**, ao final das quais o **ranking é exibido**.
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## 🚀 Funcionalidades
+
+- 🔁 Compra de cartas via **API externa**
+- 🧠 Lógica automática do dealer (para com 17+)
+- 🃏 Cálculo inteligente de ases (1 ou 11)
+- 🧮 Pontuação dinâmica a cada rodada
+- 💾 **Ranking com `localStorage`**
+- 📊 Histórico de vitórias, derrotas e empates
+- 🧼 Botão de reinício (visível ao fim da rodada)
+- 🎯 Interface limpa, modular e intuitiva
+
+---
+
+## 🧠 O que eu aprendi com este projeto
+
+Durante o desenvolvimento, aprendi e pratiquei:
+
+- **Hooks do React**:
+  - `useState` para controle de estados (pontuações, cartas, status)
+  - `useEffect` para sincronizar efeitos colaterais
+  - `useRef` para valores persistentes fora do fluxo de renderização
+
+- **Hooks personalizados**:
+  - `useBlackJack` → cria e controla o baralho
+  - `useGetCard` → gerencia a lógica de compra de cartas
+
+- **Manipulação de arrays**:
+  - Soma de pontos com ases ajustáveis
+  - Atualização do ranking
+  - Contagem e reinício de rodadas
+
+- **LocalStorage**:
+  - Armazenamento e recuperação de dados persistentes
+  - Exibição do ranking ao final de 10 rodadas
+
+- **Componentização**:
+  - Separação de responsabilidades por componente
+  - Comunicação via props
+  - Modularização dos estilos com `.css`
+
+---
+
+## 🧩 Estrutura de Componentes
+
