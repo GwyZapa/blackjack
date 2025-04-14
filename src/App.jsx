@@ -133,9 +133,9 @@ function App() {
 
             setRanking(updatedRanking);
 
-            setTimeout(() => {
+ 
                 restartGame()
-            }, 2000);
+  
         }
     }, []);
 
