@@ -47,7 +47,7 @@ function App() {
         setGameStatus("JOGO ENCERRADO...")
 
         
-        if (currentRoundsRef.current === 4) {
+        if (currentRoundsRef.current === 11) {
             // Recupera do localStorage e faz parse — garante que seja um array
             let localStorageLastRanking = [];
             
@@ -139,7 +139,7 @@ function App() {
         }
         
         
-        if (currentRoundsRef.current == 4) {
+        if (currentRoundsRef.current == 11) {
             // lastRanking = currentScoreRef.current
             console.log(currentRoundsRef +"fora do restart");
             setRounds("0");
