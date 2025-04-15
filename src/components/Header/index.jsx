@@ -2,6 +2,13 @@ import './Header.css';
 
 function Header({ gameStatus, isRestartVisible, statusColor,restartGame, currentRounds, showModal, currentScore }) {
 
+    function reloadGame(){
+        
+        setTimeout(() => {
+            console.log("reload!");
+            window.location.reload()
+        }, 1000);
+    }
 
     return (
         <div className='bar'>
@@ -12,7 +19,7 @@ function Header({ gameStatus, isRestartVisible, statusColor,restartGame, current
                     <button
                         className="restart-button"
                         style={{ visibility: isRestartVisible ? "visible" : "hidden" }}
-                        onClick={() => window.location.reload()} // Reinicia o jogo (opcional)
+                        onClick={() => reloadGame()} // Reinicia o jogo (opcional)
                     >
                         NOVA RODADA
                     </button>

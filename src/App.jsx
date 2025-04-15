@@ -42,22 +42,50 @@ function App() {
 
     // Restarta o jogo completo
     const restartGame = () => {
-        setIsShowRanking(false);
-
-        localStorage.removeItem("score")
-        localStorage.removeItem("blackjack_rounds");
-        setRounds(0);
-        currentRoundsRef.current = 0;
-
-        window.location.reload()
-    }
-
-
-    const showModal = () => {
         setIsShowRanking(true);
 
-    }
+        setGameStatus("JOGO ENCERRADO...")
 
+        
+        if (currentRoundsRef.current === 4) {
+            // Recupera do localStorage e faz parse — garante que seja um array
+            let localStorageLastRanking = [];
+            
+            try {
+                const raw = localStorage.getItem("ranking");
+                if (raw) {
+                    localStorageLastRanking = JSON.parse(raw);
+                    if (!Array.isArray(localStorageLastRanking)) {
+                        localStorageLastRanking = [];
+                    }
+                }
+            } catch (e) {
+                localStorageLastRanking = [];
+            }
+            
+            const updatedRanking = [...localStorageLastRanking, currentScoreRef.current];
+            
+            localStorage.setItem("ranking", JSON.stringify(updatedRanking));
+            
+            setRanking(updatedRanking);
+        }
+        setTimeout(() => {
+            localStorage.removeItem("score")
+            localStorage.removeItem("blackjack_rounds");
+            setRounds(0);
+            currentRoundsRef.current = 0;
+            
+            window.location.reload()
+        }, 3000);
+      
+    }
+    
+    
+    const showModal = () => {
+        setIsShowRanking(true);
+        
+    }
+    
     // Função utilitária para calcular os pontos de um array de cartas
     const calculatePoints = (cards) => {
         let total = 0;
@@ -79,7 +107,7 @@ function App() {
         }
         return total;
     };
-
+    
     // Pegar ranking no reload
     useEffect(() => {
         try {
@@ -97,6 +125,10 @@ function App() {
     // Rounds
     useEffect(() => {
         const savedRounds = localStorage.getItem("blackjack_rounds");
+        // if(savedRounds == currentRoundsRef.current){
+        //     currentRoundsRef.current = 0
+
+        // }
         if (savedRounds) {
             setRounds(Number(savedRounds));
             currentRoundsRef.current = Number(savedRounds);
@@ -105,37 +137,15 @@ function App() {
             currentRoundsRef.current = 1;
             localStorage.setItem("blackjack_rounds", 1);
         }
-
-
-        if (currentRoundsRef.current == 11) {
+        
+        
+        if (currentRoundsRef.current == 4) {
             // lastRanking = currentScoreRef.current
-            setIsShowRanking(true)
+            console.log(currentRoundsRef +"fora do restart");
+            setRounds("0");
 
-
-            // Recupera do localStorage e faz parse — garante que seja um array
-            let localStorageLastRanking = [];
-
-            try {
-                const raw = localStorage.getItem("ranking");
-                if (raw) {
-                    localStorageLastRanking = JSON.parse(raw);
-                    if (!Array.isArray(localStorageLastRanking)) {
-                        localStorageLastRanking = [];
-                    }
-                }
-            } catch (e) {
-                localStorageLastRanking = [];
-            }
-
-            const updatedRanking = [...localStorageLastRanking, currentScoreRef.current];
-
-            localStorage.setItem("ranking", JSON.stringify(updatedRanking));
-
-            setRanking(updatedRanking);
-
- 
-                restartGame()
-  
+            restartGame()
+            
         }
     }, []);
 
@@ -318,10 +328,8 @@ function App() {
 
         visRestart(); // Torna o botão visível sempre que o jogo termina
 
-        console.log("ENTROU???");
         if (currentRoundsRef.current == 11) {
-            console.log("ENTROU!");
-            
+
             setGameStatus("Fim de jogo!")
             showModal()
         }
